@@ -6,7 +6,6 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Persephone", sf::Style::Fullscreen);
 	window.setFramerateLimit(60);
-	Heroine hero = Heroine();
 
 	// init
 
@@ -21,13 +20,12 @@ int main()
 		}
 
 		// update
-		hero.handleInput();
+
 
 
 		// draw
 		window.clear();
-		// draw world background
-		hero.draw(window);
+
 		window.display();
 	}
 
