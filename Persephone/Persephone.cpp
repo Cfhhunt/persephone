@@ -4,13 +4,21 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Persephone", sf::Style::Fullscreen);
+	// init
+	sf::RenderWindow window(sf::VideoMode(1200, 800), "Persephone"); // add sf::Style::Fullscreen
 	window.setFramerateLimit(60);
 
-	// init
+	Heroine hero = Heroine();
+
+	// create the clock for physics and such
+	sf::Clock deltaClock;
+	sf::Time dt = deltaClock.restart();
 
 	while (window.isOpen())
 	{
+		// Update the clock to get elapsed time
+		dt = deltaClock.restart();
+
 		// handle events
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -19,12 +27,15 @@ int main()
 				window.close();
 		}
 
-		// update
 
+		// update
+		hero.Update(dt);
 
 
 		// draw
 		window.clear();
+
+		hero.Draw(window);
 
 		window.display();
 	}

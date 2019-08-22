@@ -1,6 +1,2 @@
 ﻿  Heroine.cpp
-c:\users\cfhhunt\desktop\artwork\nrncade\persephone\persephone\heroine.cpp(44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Persephone.cpp
-  World.cpp
-  Generating Code...
   Persephone.vcxproj -> C:\Users\Cfhhunt\Desktop\Artwork\NRNcade\Persephone\Debug\Persephone.exe
