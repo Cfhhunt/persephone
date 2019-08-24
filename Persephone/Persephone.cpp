@@ -1,13 +1,18 @@
 #include <iostream>
+#include <filesystem>
 #include "SFML/Graphics.hpp"
 #include "Heroine.h"
+#include "World.h"
+
 
 int main()
 {
 	// init
-	sf::RenderWindow window(sf::VideoMode(1200, 800), "Persephone"); // add sf::Style::Fullscreen
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Persephone", sf::Style::Fullscreen); // add sf::Style::Fullscreen
 	window.setFramerateLimit(60);
+	window.setVerticalSyncEnabled(true); // prevents artifacts and tearing
 
+	World world = World();
 	Heroine hero = Heroine();
 
 	// create the clock for physics and such
@@ -34,8 +39,9 @@ int main()
 
 		// draw
 		window.clear();
-
+		world.DrawBackground(window);
 		hero.Draw(window);
+		world.DrawForeground(window);
 
 		window.display();
 	}

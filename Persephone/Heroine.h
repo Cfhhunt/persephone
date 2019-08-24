@@ -26,5 +26,6 @@ private:
 	// temp
 	sf::RectangleShape tempBody; // temp sprite
 	sf::Vector2f gravity; // This will later be part of a physics engine
+	float ground; // y value of where Persephone will walk
 };
 

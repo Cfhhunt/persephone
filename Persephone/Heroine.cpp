@@ -4,10 +4,12 @@
 
 Heroine::Heroine()
 {
-	position = sf::Vector2f(100.0f, 700.0f);
+	ground = 900.0f; // temp.
+
+	position = sf::Vector2f(100.0f, ground);
 	velocity = sf::Vector2f(0.0f, 0.0f);
 	runVelocity = 250.0f;
-	jumpVelocity = -1200.0f;
+	jumpVelocity = -1000.0f;
 
 	state = STATE_STANDING;
 
@@ -15,9 +17,9 @@ Heroine::Heroine()
 	tempBody = sf::RectangleShape();
 	tempBody.setSize(sf::Vector2f(100, 70));
 	tempBody.setPosition(position);
-	tempBody.setFillColor(sf::Color::Cyan);
+	tempBody.setFillColor(sf::Color::Blue);
 	// temp gravity
-	gravity = sf::Vector2f(0.0f, 2000.0f);
+	gravity = sf::Vector2f(0.0f, 2200.0f);
 }
 
 
@@ -107,14 +109,14 @@ void Heroine::checkForStateChange()
 		break;
 	case STATE_JUMPING:
 		// change to STATE_RUNNING if collision with the ground AND pressing A or D
-		if ((position.y >= 700) && (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))) // TODO: check for collision
+		if ((position.y >= ground) && (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))) // TODO: check for collision
 		{
 			state = STATE_RUNNING;
 			velocity.y = 0.0f;
 		}
 
 		// change to STATE_STANDING if collision with the ground AND not pressing A or D
-		else if (position.y >= 700) // TODO: check for collision
+		else if (position.y >= ground) // TODO: check for collision
 		{
 			state = STATE_STANDING;
 			velocity.y = 0.0f;
