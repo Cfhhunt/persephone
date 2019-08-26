@@ -4,22 +4,29 @@
 
 Heroine::Heroine()
 {
-	ground = 900.0f; // temp.
-
+	// positional info
+	ground = 835.0f; // temp. val for ground collisions
 	position = sf::Vector2f(100.0f, ground);
 	velocity = sf::Vector2f(0.0f, 0.0f);
 	runVelocity = 250.0f;
-	jumpVelocity = -1000.0f;
+	jumpVelocity = -800.0f;
+	
+	// load textures
+	loadTextures();
 
+	// sprite
+	heroSprite.setTexture(heroStandRight);
+	heroSprite.setTextureRect(sf::IntRect(0, 0, 256, 256));
+	heroSprite.setPosition(position);
+	heroSprite.setScale(.5, .5); // temp. The sprites are bigger than they should be, fix the sprites then delete this
+
+	// current state(s)
 	state = STATE_STANDING;
 
-	// Temp. rectrangle for character body
-	tempBody = sf::RectangleShape();
-	tempBody.setSize(sf::Vector2f(100, 70));
-	tempBody.setPosition(position);
-	tempBody.setFillColor(sf::Color::Blue);
 	// temp gravity
 	gravity = sf::Vector2f(0.0f, 2200.0f);
+	
+	 
 }
 
 
@@ -64,13 +71,17 @@ void Heroine::Update(sf::Time dt)
 		}
 		break;
 	}
+
+	// Update sprite and collision stuff
+	heroSprite.setPosition(position);
 }
 
 void Heroine::Draw(sf::RenderWindow &window)
 {
-	tempBody.setPosition(position);
+	// TODO: Animate(state, vel, position, sprite, texture)
+
 	// draw to the window
-	window.draw(tempBody);
+	window.draw(heroSprite);
 }
 
 // This checks for state change, changes it if needed, and initializes the new state (ie. changing velocity)
@@ -124,4 +135,14 @@ void Heroine::checkForStateChange()
 
 		break;
 	}
+}
+
+void Heroine::loadTextures()
+{
+	heroStandRight.loadFromFile("../images/Heroine/StandRight.png");
+	heroStandLeft.loadFromFile("../images/Heroine/StandLeft.png");
+	heroRunRight.loadFromFile("../images/Heroine/RunRight.png");
+	heroRunLeft.loadFromFile("../images/Heroine/RunLeft.png");
+	heroJumpRight.loadFromFile("../images/Heroine/JumpRight.png");
+	heroJumpLeft.loadFromFile("../images/Heroine/JumpLeft.png");
 }

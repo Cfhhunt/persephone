@@ -13,7 +13,7 @@ Coming soon
 Coming soon
 
 ## Built With
-* [SFML] (https://www.sfml-dev.org/) - The C++ library used
+* [SFML](https://www.sfml-dev.org/) - The C++ library used
 
 ## Authors
 
