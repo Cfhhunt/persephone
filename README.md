@@ -1,5 +1,4 @@
-# **Persephone**
-#### **and the Undead Invasion**
+# **Persephone and the Undead Invasion**
 
 
 This is the story of Persephone, who, after returning from a summer away from home, finds that her small, coastal New England town has been overrun by the undead.
@@ -14,7 +13,7 @@ Coming soon
 Coming soon
 
 ## Built With
-* [SFML] (https://www.sfml-dev.org/) - The C++ Library used
+* [SFML] (https://www.sfml-dev.org/) - The C++ library used
 
 ## Authors
 
