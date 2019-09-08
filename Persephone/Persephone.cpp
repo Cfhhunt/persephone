@@ -12,8 +12,8 @@ int main()
 	window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(true); // prevents artifacts and tearing
 
-	World world = World();
 	Heroine hero = Heroine();
+	World world = World(hero);
 
 	// create the clock for physics and such
 	sf::Clock deltaClock;
@@ -42,7 +42,7 @@ int main()
 		
 		world.DrawBackground(window);
 		hero.Draw(window);
-		//world.DrawForeground(window);
+		world.DrawForeground(window);
 
 		window.display();
 	}

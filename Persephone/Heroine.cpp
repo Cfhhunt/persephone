@@ -8,20 +8,24 @@ Heroine::Heroine()
 	ground = 835.0f; // temp. val for ground collisions
 	position = sf::Vector2f(100.0f, ground);
 	velocity = sf::Vector2f(0.0f, 0.0f);
-	runVelocity = 250.0f;
+	runVelocity = 300.0f;
 	jumpVelocity = -800.0f;
+	direction = 1;
 	
 	// load textures
 	loadTextures();
 
 	// sprite
-	heroSprite.setTexture(heroStandRight);
+	spriteWidth = 256;
+	frameCounter = 0;
+	heroSprite.setTexture(standRightTexture);
 	heroSprite.setTextureRect(sf::IntRect(0, 0, 256, 256));
 	heroSprite.setPosition(position);
 	heroSprite.setScale(.5, .5); // temp. The sprites are bigger than they should be, fix the sprites then delete this
 
 	// current state(s)
 	state = STATE_STANDING;
+	previousState = STATE_STANDING;
 
 	// temp gravity
 	gravity = sf::Vector2f(0.0f, 2200.0f);
@@ -47,11 +51,13 @@ void Heroine::Update(sf::Time dt)
 	case STATE_RUNNING:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
+			direction = -1;
 			velocity.x = -runVelocity;
 			position.x = position.x + velocity.x * dt.asSeconds();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
+			direction = 1;
 			velocity.x = runVelocity;
 			position.x = position.x + velocity.x * dt.asSeconds();
 		}
@@ -61,25 +67,24 @@ void Heroine::Update(sf::Time dt)
 		position.y = position.y + velocity.y * dt.asSeconds();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
+			direction = -1;
 			velocity.x = -runVelocity;
 			position.x = position.x + velocity.x * dt.asSeconds();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
+			direction = 1;
 			velocity.x = runVelocity;
 			position.x = position.x + velocity.x * dt.asSeconds();
 		}
 		break;
 	}
 
-	// Update sprite and collision stuff
-	heroSprite.setPosition(position);
+	UpdateSprite();
 }
 
 void Heroine::Draw(sf::RenderWindow &window)
 {
-	// TODO: Animate(state, vel, position, sprite, texture)
-
 	// draw to the window
 	window.draw(heroSprite);
 }
@@ -135,14 +140,78 @@ void Heroine::checkForStateChange()
 
 		break;
 	}
+
+	ResetSprite(); // Temp. Move this elsewhere with a boolean 'stateChanged' value
 }
 
 void Heroine::loadTextures()
 {
-	heroStandRight.loadFromFile("../images/Heroine/StandRight.png");
-	heroStandLeft.loadFromFile("../images/Heroine/StandLeft.png");
-	heroRunRight.loadFromFile("../images/Heroine/RunRight.png");
-	heroRunLeft.loadFromFile("../images/Heroine/RunLeft.png");
-	heroJumpRight.loadFromFile("../images/Heroine/JumpRight.png");
-	heroJumpLeft.loadFromFile("../images/Heroine/JumpLeft.png");
+	standRightTexture.loadFromFile("../images/Heroine/StandRight.png");
+	standLeftTexture.loadFromFile("../images/Heroine/StandLeft.png");
+	runRightTexture.loadFromFile("../images/Heroine/RunRight.png");
+	runLeftTexture.loadFromFile("../images/Heroine/RunLeft.png");
+	jumpRightTexture.loadFromFile("../images/Heroine/JumpRight.png");
+	jumpLeftTexture.loadFromFile("../images/Heroine/JumpLeft.png");
+}
+
+void Heroine::UpdateSprite()
+{
+	switch (state)
+	{
+	case STATE_STANDING:
+		if (direction == 1) {
+			heroSprite.setTexture(standRightTexture);
+		} 
+		else {
+			heroSprite.setTexture(standLeftTexture);
+		}
+		break;
+	case STATE_RUNNING:
+		if (direction == 1) {
+			heroSprite.setTexture(runRightTexture);
+		}
+		else {
+			heroSprite.setTexture(runLeftTexture);
+		}
+		heroSprite.setTextureRect(sf::IntRect((frameCounter/6) * spriteWidth, 0, 256, 256));
+		frameCounter = (frameCounter + 1) % 60;
+		break;
+	case STATE_JUMPING:
+		// pick texture based on direction
+		if (direction == 1) {
+			heroSprite.setTexture(jumpRightTexture);
+		}
+		else {
+			heroSprite.setTexture(jumpLeftTexture);
+		}
+		// set part of sprite to show
+		if (velocity.y <= -200) {
+			heroSprite.setTextureRect(sf::IntRect(0, 0, 256, 256));
+		}
+		else if (velocity.y > -200 && velocity.y < 200) {
+			heroSprite.setTextureRect(sf::IntRect(spriteWidth, 0, 256, 256));
+		}
+		else {
+			heroSprite.setTextureRect(sf::IntRect(spriteWidth * 2, 0, 256, 256));
+		}
+		break;
+	}
+
+	// Update sprite positional info
+	heroSprite.setPosition(position);
+}
+
+void Heroine::ResetSprite()
+{
+	heroSprite.setTextureRect(sf::IntRect(0, 0, 256, 256));
+}
+
+sf::Vector2f Heroine::GetPosition()
+{
+	return position;
+}
+
+sf::Vector2f Heroine::GetVelocity()
+{
+	return velocity;
 }
